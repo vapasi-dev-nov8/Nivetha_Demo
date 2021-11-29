@@ -52,7 +52,7 @@ class MovieControllerTest {
 
         when(moviesService.saveMovie(requestMovie)).thenReturn(savedMovie);
 
-        mockMvc.perform(post("/api/v1/movies/")
+        mockMvc.perform(post("/api/v1/movies/create")
                         .content(asJsonString(requestMovie))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
