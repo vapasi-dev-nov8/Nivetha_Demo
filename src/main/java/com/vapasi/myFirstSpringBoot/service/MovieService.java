@@ -6,7 +6,6 @@ import com.vapasi.myFirstSpringBoot.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,12 +21,17 @@ public class MovieService {
     }
 
     public List<MovieDto> getAllMovies() {
-        List<MovieDto> allMovies = new ArrayList<>();
-        for(MovieEntity entity : movieRepository.findAll()) {
-            allMovies.add(MovieDto.dtoFrom(entity));
-        }
-        return allMovies;
+       // List<MovieDto> allMovies = new ArrayList<>();
+        List<MovieEntity> movieEntityList = movieRepository.findAll();
+//        for(MovieEntity entity : movieRepository.findAll()) {
+//            allMovies.add(MovieDto.dtoFrom(entity));
+//        }
+        return convertToMovieDtoList(movieEntityList);
 
+    }
+
+    private List<MovieDto> convertToMovieDtoList(List<MovieEntity> movieEntityList) {
+        return movieEntityList.stream().map(MovieDto::dtoFrom).collect(Collectors.toList());
     }
 
     public MovieDto saveMovie(MovieDto movieDto) {
@@ -57,16 +61,16 @@ public class MovieService {
 
     public List<MovieDto> findMoviesByActors(List<String> actorNames) {
        List<MovieEntity> movieEntityList = movieRepository.findByActorNameIn(actorNames);
-       return movieEntityList.stream().map(MovieDto::dtoFrom).collect(Collectors.toList());
+       return convertToMovieDtoList(movieEntityList);
     }
 
     public List<MovieDto> findMoviesByDirectors(List<String> directorNames) {
         List<MovieEntity> movieEntityList = movieRepository.findByDirectorNameIn(directorNames);
-        return movieEntityList.stream().map(MovieDto::dtoFrom).collect(Collectors.toList());
+        return convertToMovieDtoList(movieEntityList);
     }
 
     public List<MovieDto> findMoviesByNames(List<String> movieNames) {
         List<MovieEntity> movieEntityList = movieRepository.findByNameIn(movieNames);
-        return movieEntityList.stream().map(MovieDto::dtoFrom).collect(Collectors.toList());
+        return convertToMovieDtoList(movieEntityList);
     }
 }
