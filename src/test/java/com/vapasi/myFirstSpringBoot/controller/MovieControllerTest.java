@@ -47,7 +47,7 @@ class MovieControllerTest {
     @Test
     void shouldExpectMovieCreatedifMovieIsSaved () throws Exception {
 
-        MovieDto requestMovie = new MovieDto(null, "Movie Name", "Actor Name", "Director Name");
+        MovieDto requestMovie = new MovieDto(null,"Movie Name", "Actor Name", "Director Name");
         MovieDto savedMovie = new  MovieDto(1, "Movie Name", "Actor Name", "Director Name");
 
         when(moviesService.saveMovie(requestMovie)).thenReturn(savedMovie);
@@ -64,7 +64,9 @@ class MovieControllerTest {
 
     private String asJsonString(MovieDto movie) {
         try {
+            System.out.println(new ObjectMapper().writeValueAsString(movie));
             return new ObjectMapper().writeValueAsString(movie);
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
