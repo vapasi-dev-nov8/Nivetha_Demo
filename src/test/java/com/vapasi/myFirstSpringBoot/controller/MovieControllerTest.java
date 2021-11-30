@@ -45,9 +45,9 @@ class MovieControllerTest {
     }
 
     @Test
-    void shouldExpectMovieCreatedifMovieIsSaved () throws Exception {
+    void shouldExpectMovieCreatedIfMovieIsSaved () throws Exception {
 
-        MovieDto requestMovie = new MovieDto(null,"Movie Name", "Actor Name", "Director Name");
+        MovieDto requestMovie = new MovieDto("Movie Name", "Actor Name", "Director Name");
         MovieDto savedMovie = new  MovieDto(1, "Movie Name", "Actor Name", "Director Name");
 
         when(moviesService.saveMovie(requestMovie)).thenReturn(savedMovie);
@@ -56,7 +56,7 @@ class MovieControllerTest {
                         .content(asJsonString(requestMovie))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
+                    .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().json(asJsonString(savedMovie)));
         verify(moviesService, times(1)).saveMovie(requestMovie);
     }
